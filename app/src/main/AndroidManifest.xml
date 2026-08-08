@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- TODO: add any RayNeo-specific permissions/features required by
+         Creator Mode / the ARDK (check their manifest merge instructions) -->
+
+    <!-- BLE, for connecting to the MetaWear IMU sensor. Legacy permissions cover
+         Android 11-12 (API 30-30); the new granular ones cover API 31+. -->
+    <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:usesPermissionFlags="neverForLocation" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
+    <uses-feature android:name="android.hardware.bluetooth_le" android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="Movement Check"
+        android:theme="@android:style/Theme.Material.NoActionBar">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Second, independent version of the app: the original auto-incrementing
+             binocular counter placeholder, untouched from MainActivity. Its own launcher
+             entry so it can be run separately from the CSV rep-detection screen. -->
+        <activity
+            android:name=".CounterActivity"
+            android:exported="true"
+            android:label="Movement Check (Counter Demo)"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Required by the MetaWear SDK to manage the BLE GATT connection. -->
+        <service android:name="com.mbientlab.metawear.android.BtleService" android:exported="false" />
+    </application>
+</manifest>
